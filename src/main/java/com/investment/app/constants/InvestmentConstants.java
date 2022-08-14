@@ -8,5 +8,10 @@ public class InvestmentConstants {
 	
 	public static final String LONG_TERM_PORTFOLIO = "LONG TERM PORTFOLIO";
 	public static final String SWING_TRADE_PORTFOLIO = " SWING TRADE PORTFOLIO";
+	
+	
+	public static final String FNO_TRADE_PORTFOLIO = "FNO TRADE";
+	
+	
 
 }

@@ -24,4 +24,6 @@ public interface FNOReportsRepository extends MongoRepository<FNOReport, String>
 	@Query("{'tradedDate' : { $gte: ?0, $lte: ?1 } }") 
 	List<FNOReport> findByTradedDateAndTradeResult(LocalDate date1 ,LocalDate date2,String result);
 	
+	List<FNOReport> findByPortfolioId(String portfolioId);
+	
 }

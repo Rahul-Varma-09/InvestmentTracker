@@ -30,5 +30,15 @@ public class PortfolioController {
 	public GenericResponse<?> getPortfoliosByEmail(@PathVariable("email") String email) {
 		return portfolioService.getPortfolioByOwnersEmail(email);
 	}
+	
+	@GetMapping("/getInvestment/{id}/{type}")
+	public GenericResponse<?> getInvestmentByPortfolioId(@PathVariable("id") String portfolioId,@PathVariable("type") String portfolioType) {
+		return portfolioService.getInvestmentByPortfolioIdAndType(portfolioId,portfolioType);
+	}
+	
+	@GetMapping("/deleteInvestment/{id}/{type}")
+	public GenericResponse<?> deleteInvestmentById(@PathVariable("id") String id,@PathVariable("type") String portfolioType) {
+		return portfolioService.deleteInvestmentById(id,portfolioType);
+	}
 
 }

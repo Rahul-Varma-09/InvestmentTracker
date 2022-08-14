@@ -26,6 +26,7 @@ public class FNOReport {
     private Double thirtyPercentShare;
     private Double seventyPercentShare;
     private Double finalInHandProfit;
+    private String portfolioId;
     @CreatedDate
     private LocalDate createdDate;
     @LastModifiedDate

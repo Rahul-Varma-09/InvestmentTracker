@@ -1,5 +1,6 @@
 package com.investment.app.services;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,19 @@ public class FNOReportsService {
 
 	@Autowired
 	private FNOReportsRepository reportRepo;
+	
+	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	public GenericResponse<?> addFnoEntry(FNOReport report) {
 
 		FNOReport savedReport = null;
 
-		Double thirtyPer = (Double) (report.getGrossAmount() * 0.3);
-		Double seventyPer = (Double) (report.getGrossAmount() * 0.7);
+		Double thirtyPerShare = (Double) (report.getGrossAmount() * 0.3);
+		Double seventyPerShare = (Double) (report.getGrossAmount() * 0.7);
 
+		Double thirtyPer = Double.parseDouble(df.format(thirtyPerShare));
+		Double seventyPer = Double.parseDouble(df.format(seventyPerShare));
+		
 		try {
 			if (report.getTradeResult().equals(InvestmentConstants.PROFIT)) {
 				Double finalInHandAmount = seventyPer - report.getTradeCharges();
@@ -44,6 +50,8 @@ public class FNOReportsService {
 				report.setFinalInHandProfit(0.0);
 				report.setNetAmount(0.0);
 			}
+			
+		
 
 			savedReport = reportRepo.save(report);
 
@@ -88,6 +96,7 @@ public class FNOReportsService {
 		Double totalInHandProfit = 0.0;
 
 		for (FNOReport fnoReport : profitfnoReports) {
+
 			totalGrossAmount = totalGrossAmount + fnoReport.getGrossAmount();
 			totalTradeCharges = totalTradeCharges + fnoReport.getTradeCharges();
 			totalNetAmount = totalNetAmount + fnoReport.getNetAmount();
