@@ -1,5 +1,6 @@
 package com.investment.app.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +15,12 @@ import lombok.NoArgsConstructor;
 
 @Document(value = "FNOReports")
 @AllArgsConstructor @NoArgsConstructor @Data @Builder
-public class FNOReport {
+public class FNOReport implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3468772484906271768L;
 	
 	@Id
 	private String id;

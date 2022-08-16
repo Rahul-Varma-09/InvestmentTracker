@@ -56,6 +56,8 @@ public class PortfolioService {
 
 	public GenericResponse<?> getInvestmentByPortfolioIdAndType(String portfolioId,String portfolioType) {
 		
+		System.out.println(portfolioId + " " + portfolioType);
+		
 		if (portfolioType.equals(InvestmentConstants.FNO_TRADE_PORTFOLIO)) {
 			List<FNOReport> fnoReports = fnoReportsRepository.findByPortfolioId(portfolioId);
 			

@@ -35,48 +35,48 @@ public class FNOReportsController {
 	    return fnoReportService.getAllFNOReports();
 	}
 
-	@GetMapping("/getByTradedDate/{date1}/{date2}")
-	public List<FNOReport> getByTradeDate(@PathVariable("date1")String date1,@PathVariable("date2")String date2){
+	@GetMapping("/getByTradedDate/{date1}/{date2}/{portfolioId}")
+	public List<FNOReport> getByTradeDate(@PathVariable("date1")String date1,@PathVariable("date2")String date2,@PathVariable("portfolioId")String portfolioId){
 		LocalDate startDate = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate endDate = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		return fnoReportService.getTradeByDateRange(startDate,endDate);
+		return fnoReportService.getTradeByDateRange(startDate,endDate,portfolioId);
 	}
 	
-	@GetMapping("/getByTradeResult/{result}")
-	public List<FNOReport> getByTradeResult(@PathVariable("result")String result){
-		return fnoReportService.getByTradeResult(result);
+	@GetMapping("/getByTradeResult/{result}/{portfolioId}")
+	public List<FNOReport> getByTradeResult(@PathVariable("result")String result,@PathVariable("portfolioId")String portfolioId){
+		return fnoReportService.getByTradeResult(result,portfolioId);
 	}
 	
-	@GetMapping("/getByTradedDate/{date}")
-	public List<FNOReport> getByTradedDate(@PathVariable("date")String date){
+	@GetMapping("/getByTradedDate/{date}/{portfolioId}")
+	public List<FNOReport> getByTradedDate(@PathVariable("date")String date,@PathVariable("portfolioId")String portfolioId){
 		
 		LocalDate startDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		
 		List<FNOReport> reportList = new ArrayList<FNOReport>(); 
 	
-		reportList.add(fnoReportService.getByTradedDate(startDate));
+		reportList.add(fnoReportService.getByTradedDate(startDate,portfolioId));
 		
 		return reportList;
 		
 	}
 	
 	
-	@GetMapping("/getByDateAndResult/{date}/{result}")
-	public List<FNOReport> getDataByTradedDateAndResult(@PathVariable("date") String tradedDate,@PathVariable("result") String result) {
+	@GetMapping("/getByDateAndResult/{date}/{result}/{portfolioId}")
+	public List<FNOReport> getDataByTradedDateAndResult(@PathVariable("date") String tradedDate,@PathVariable("result") String result,@PathVariable("portfolioId") String portfolioId) {
 		LocalDate startDate = LocalDate.parse(tradedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		
-		return fnoReportService.getByTradedDateAndTradeResult(startDate,result);
+		return fnoReportService.getByTradedDateAndTradeResult(startDate,result,portfolioId);
 		
 	}
 	
-	@GetMapping("/getByDateRangeAndResult/{date1}/{date2}/{result}")
-	public List<FNOReport> getByTradedDateRangeAndTradeResult(@PathVariable("date1")String date1,@PathVariable("date2")String date2,@PathVariable("result") String result){
-		
+	@GetMapping("/getByDateRangeAndPortfolioIdAndResult/{date1}/{date2}/{portfolioId}/{result}")
+	public List<FNOReport> getByTradedDateRangeAndTradeResult(@PathVariable("date1")String date1,@PathVariable("date2")String date2,@PathVariable("portfolioId") String portfolioId,@PathVariable("result") String result){
+			
 		LocalDate startDate = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		
 		LocalDate endDate = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	
-		return fnoReportService.getByTradedDateRangeAndTradeResult(startDate, endDate ,result);
+		return fnoReportService.getByTradedDateRangeAndPortfolioIdAndTradeResult(startDate, endDate, portfolioId,result);
 	}
 	
 	

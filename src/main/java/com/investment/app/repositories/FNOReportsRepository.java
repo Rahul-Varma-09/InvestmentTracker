@@ -12,17 +12,17 @@ import com.investment.app.entities.FNOReport;
 @Repository
 public interface FNOReportsRepository extends MongoRepository<FNOReport, String> {
 	
-	@Query("{'tradedDate' : { $gte: ?0, $lte: ?1 } }") 
-	List<FNOReport> findByTradedDate(LocalDate date1 ,LocalDate date2);
+	@Query("{'tradedDate' : { $gte: ?0, $lte: ?1 } , 'portfolioId' : ?2 } ") 
+	List<FNOReport> findByTradedDateAndPortfolioId(LocalDate date1 ,LocalDate date2,String portfolioId);
 	
-	List<FNOReport> findByTradeResult(String result);
+	List<FNOReport> findByTradeResultAndPortfolioId(String result,String portfolioId);
 	
-	FNOReport findByTradedDate(LocalDate tradedDate);
+	FNOReport findByTradedDateAndPortfolioId(LocalDate tradedDate,String portfolioId);
 
-	List<FNOReport> findByTradedDateAndTradeResult(LocalDate date1,String result);
+	List<FNOReport> findByTradedDateAndTradeResultAndPortfolioId(LocalDate date1,String result,String portfolioId);
 	
-	@Query("{'tradedDate' : { $gte: ?0, $lte: ?1 } }") 
-	List<FNOReport> findByTradedDateAndTradeResult(LocalDate date1 ,LocalDate date2,String result);
+	@Query("{'tradedDate' : { $gte: ?0, $lte: ?1 } , 'portfolioId' : ?2 , 'tradeResult' : ?3 } ") 
+	List<FNOReport> findByTradedDateAndPortfolioIdAndTradeResult(LocalDate date1 ,LocalDate date2,String portfolioId,String result);
 	
 	List<FNOReport> findByPortfolioId(String portfolioId);
 	

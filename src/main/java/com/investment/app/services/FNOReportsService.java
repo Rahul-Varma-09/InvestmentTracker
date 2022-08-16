@@ -50,9 +50,7 @@ public class FNOReportsService {
 				report.setFinalInHandProfit(0.0);
 				report.setNetAmount(0.0);
 			}
-			
 		
-
 			savedReport = reportRepo.save(report);
 
 			if (savedReport == null) {
@@ -127,18 +125,18 @@ public class FNOReportsService {
 		fnoReports.add(totalFNOReport);
 	}
 
-	public List<FNOReport> getTradeByDateRange(LocalDate date1, LocalDate date2) {
-		List<FNOReport> reportList = reportRepo.findByTradedDate(date1, date2);
+	public List<FNOReport> getTradeByDateRange(LocalDate date1, LocalDate date2,String portfolioId) {
+		List<FNOReport> reportList = reportRepo.findByTradedDateAndPortfolioId(date1, date2,portfolioId);
 		generateTotal(reportList);
 		return reportList;
 	}
 
-	public List<FNOReport> getByTradeResult(String result) {
-		return reportRepo.findByTradeResult(result);
+	public List<FNOReport> getByTradeResult(String result,String portfolioId) {
+		return reportRepo.findByTradeResultAndPortfolioId(result,portfolioId);
 	}
 
-	public FNOReport getByTradedDate(LocalDate date) {
-		FNOReport report = reportRepo.findByTradedDate(date);
+	public FNOReport getByTradedDate(LocalDate date,String portfolioId) {
+		FNOReport report = reportRepo.findByTradedDateAndPortfolioId(date,portfolioId);
 		if (report == null) {
 			report = new FNOReport();
 		}
@@ -146,12 +144,12 @@ public class FNOReportsService {
 		return report;
 	}
 
-	public List<FNOReport> getByTradedDateAndTradeResult(LocalDate startDate, String result) {
-		return reportRepo.findByTradedDateAndTradeResult(startDate, result);
+	public List<FNOReport> getByTradedDateAndTradeResult(LocalDate startDate, String result,String portfolioId) {
+		return reportRepo.findByTradedDateAndTradeResultAndPortfolioId(startDate, result,portfolioId);
 	}
 
-	public List<FNOReport> getByTradedDateRangeAndTradeResult(LocalDate startDate, LocalDate endDate, String result) {
-		List<FNOReport> list = reportRepo.findByTradedDateAndTradeResult(startDate, endDate, result);
+	public List<FNOReport> getByTradedDateRangeAndPortfolioIdAndTradeResult(LocalDate startDate, LocalDate endDate,String portfolioId, String result) {
+		List<FNOReport> list = reportRepo.findByTradedDateAndPortfolioIdAndTradeResult(startDate, endDate,portfolioId, result);
 		return list;
 	}
 
