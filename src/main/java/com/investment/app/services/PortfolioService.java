@@ -17,6 +17,7 @@ public class PortfolioService {
 	
 	@Autowired private PortfolioRepository portfolioRepository;
 	@Autowired private FNOReportsRepository fnoReportsRepository;
+	@Autowired private FNOReportsService fnoReportService;
 	
 	public GenericResponse<?> createPortfolio(Portfolio portfolio) {
 		
@@ -56,10 +57,10 @@ public class PortfolioService {
 
 	public GenericResponse<?> getInvestmentByPortfolioIdAndType(String portfolioId,String portfolioType) {
 		
-		System.out.println(portfolioId + " " + portfolioType);
-		
 		if (portfolioType.equals(InvestmentConstants.FNO_TRADE_PORTFOLIO)) {
 			List<FNOReport> fnoReports = fnoReportsRepository.findByPortfolioId(portfolioId);
+			
+			fnoReportService.generateTotal(fnoReports);
 			
 			if (fnoReports.size() > 0) {
 				return GenericResponse.builder().message("FNO Reports Fetched Successfully").code("OK").body(fnoReports).build();

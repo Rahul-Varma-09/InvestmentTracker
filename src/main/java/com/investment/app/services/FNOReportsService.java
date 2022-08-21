@@ -20,9 +20,11 @@ public class FNOReportsService {
 	@Autowired
 	private FNOReportsRepository reportRepo;
 	
-	private static final DecimalFormat df = new DecimalFormat("0.00");
+	
 
 	public GenericResponse<?> addFnoEntry(FNOReport report) {
+		
+		final DecimalFormat df = new DecimalFormat("0.00");
 
 		FNOReport savedReport = null;
 
@@ -37,13 +39,13 @@ public class FNOReportsService {
 				Double finalInHandAmount = seventyPer - report.getTradeCharges();
 				report.setThirtyPercentShare(thirtyPer);
 				report.setSeventyPercentShare(seventyPer);
-				report.setNetAmount(report.getGrossAmount() - report.getTradeCharges());
-				report.setFinalInHandProfit(finalInHandAmount);
+				report.setNetAmount(Double.parseDouble(df.format(report.getGrossAmount() - report.getTradeCharges())));
+				report.setFinalInHandProfit(Double.parseDouble(df.format(finalInHandAmount)));
 			} else if (report.getTradeResult().equals(InvestmentConstants.LOSS)) {
 				report.setThirtyPercentShare(thirtyPer);
 				report.setSeventyPercentShare(seventyPer);
-				report.setFinalInHandProfit(seventyPer + report.getTradeCharges());
-				report.setNetAmount(report.getGrossAmount() + report.getTradeCharges());
+				report.setFinalInHandProfit(Double.parseDouble(df.format(seventyPer + report.getTradeCharges())));
+				report.setNetAmount(Double.parseDouble(df.format(report.getGrossAmount() + report.getTradeCharges())));
 			} else if (report.getTradeResult().equals(InvestmentConstants.NO_TRADE)) {
 				report.setThirtyPercentShare(0.0);
 				report.setSeventyPercentShare(0.0);
@@ -77,7 +79,10 @@ public class FNOReportsService {
 		return reportList;
 	}
 
-	private void generateTotal(List<FNOReport> fnoReports) {
+	public void generateTotal(List<FNOReport> fnoReports) {
+
+		final DecimalFormat df = new DecimalFormat("0.00");
+		
 		List<FNOReport> profitfnoReports = new ArrayList<FNOReport>();
 
 		List<FNOReport> lossfnoReports = new ArrayList<FNOReport>();
@@ -114,12 +119,12 @@ public class FNOReportsService {
 
 		FNOReport totalFNOReport = new FNOReport();
 		// totalFNOReport.setTradedDate(new LocalDate());
-		totalFNOReport.setGrossAmount(totalGrossAmount);
-		totalFNOReport.setTradeCharges(totalTradeCharges);
-		totalFNOReport.setNetAmount(totalNetAmount);
-		totalFNOReport.setSeventyPercentShare(totalSeventyPerAmount);
-		totalFNOReport.setThirtyPercentShare(totalthirtyPerAmount);
-		totalFNOReport.setFinalInHandProfit(totalInHandProfit);
+		totalFNOReport.setGrossAmount(Double.parseDouble(df.format(totalGrossAmount)));
+		totalFNOReport.setTradeCharges(Double.parseDouble(df.format(totalTradeCharges)));
+		totalFNOReport.setNetAmount(Double.parseDouble(df.format(totalNetAmount)));
+		totalFNOReport.setSeventyPercentShare(Double.parseDouble(df.format(totalSeventyPerAmount)));
+		totalFNOReport.setThirtyPercentShare(Double.parseDouble(df.format(totalthirtyPerAmount)));
+		totalFNOReport.setFinalInHandProfit(Double.parseDouble(df.format(totalInHandProfit)));
 		totalFNOReport.setTradeResult("N/A");
 
 		fnoReports.add(totalFNOReport);
@@ -132,7 +137,9 @@ public class FNOReportsService {
 	}
 
 	public List<FNOReport> getByTradeResult(String result,String portfolioId) {
-		return reportRepo.findByTradeResultAndPortfolioId(result,portfolioId);
+		List<FNOReport> repoList = reportRepo.findByTradeResultAndPortfolioId(result,portfolioId);
+		generateTotal(repoList);
+		return repoList;
 	}
 
 	public FNOReport getByTradedDate(LocalDate date,String portfolioId) {
@@ -145,11 +152,14 @@ public class FNOReportsService {
 	}
 
 	public List<FNOReport> getByTradedDateAndTradeResult(LocalDate startDate, String result,String portfolioId) {
-		return reportRepo.findByTradedDateAndTradeResultAndPortfolioId(startDate, result,portfolioId);
+		List<FNOReport> repoList = reportRepo.findByTradedDateAndTradeResultAndPortfolioId(startDate, result,portfolioId);
+		generateTotal(repoList);
+		return repoList;
 	}
 
 	public List<FNOReport> getByTradedDateRangeAndPortfolioIdAndTradeResult(LocalDate startDate, LocalDate endDate,String portfolioId, String result) {
 		List<FNOReport> list = reportRepo.findByTradedDateAndPortfolioIdAndTradeResult(startDate, endDate,portfolioId, result);
+		generateTotal(list);
 		return list;
 	}
 
